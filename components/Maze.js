@@ -3,24 +3,26 @@ import {
   AppRegistry,
   View,
   PointLight,
-  asset
+  asset,
+  VrButton
 } from 'react-360';
 import Entity from 'Entity';
 
 export default class Building extends React.Component {
+
   render() {
     return (
       <View>
         <Entity
           style={{
             transform:[
-              {translate: [ -0.09, 0.09, -4]},
-              {scale: 1.1}
+              {translate: [ 18, -1, -50]},
+              {scale: 50}
             ],
           }}
           source={{
-            obj: asset('maze.obj'),
-            mtl: asset('maze.mtl')
+            obj: asset('newMaze.obj'),
+            mtl: asset('newMaze.mtl')
           }}
           lit={true}
         />

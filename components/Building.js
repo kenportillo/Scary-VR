@@ -9,6 +9,7 @@ import Entity from 'Entity';
 
 export default class Building extends React.Component {
   render() {
+    console.log('Building is here')
     return (
       <View>
         <Entity
