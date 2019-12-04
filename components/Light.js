@@ -12,7 +12,7 @@ export default class Light extends React.Component {
     return (
       <View>
         <AmbientLight
-          intensity={0.1}
+          intensity={0.2}
           style={{
             color: '#ffffff',
             transform: [
@@ -25,24 +25,31 @@ export default class Light extends React.Component {
           intensity={0.2}
           style={{
             transform: [
-              {translate: [50,0,0]}
+              {translate: [20,0,-50]}
             ]
           }}
         />
         <SpotLight 
-          intensity={0.5}
-        />
-
-        {/* <PointLight 
           intensity={0.2}
           style={{
-            color: '#F5F5DC',
             transform: [
-              {translate: [0,0,0]},
+              {translate: [-20,0,-100]}
             ]
           }}
-          distance={10}
-        /> */}
+        />
+
+        <SpotLight 
+          intensity={0.2}
+          style={{
+            transform: [
+              {translate: [-30,0,0]}
+            ]
+          }}
+        />
+
+        <SpotLight 
+          intensity={0.2}
+        />
         
       </View>
     );

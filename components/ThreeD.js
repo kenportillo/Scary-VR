@@ -15,6 +15,7 @@ import Maze from './Maze';
 import MazeMoves from '../moves/MazeMoves';
 // import ScareScreen from './ScareScreen'
 // import Keyboard from './Keyboard';
+import GazeButton from "react-360-gaze-button";
 
 // const {AudioModule} = NativeModules;
 
@@ -23,10 +24,10 @@ export default class ThreeD extends React.Component {
   render() {
     return (
       <View>
-        {/* <Keyboard/> */}
-        <MazeMoves />
-        <Maze />
-        <Light/>
+          {/* <Keyboard/> */}
+          <MazeMoves />
+          <Maze />
+          <Light/>
       </View>
     )
   }

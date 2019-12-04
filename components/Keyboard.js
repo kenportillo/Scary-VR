@@ -137,31 +137,7 @@ export default class KeyboardPanel extends React.Component {
   render(){
     console.log(this.state.loggedIn)
     return(
-    //   <View>
-    //     {/* <VrButton onClick={() => surfaceModule.destroyPanel()}> */}
-    //       {/* <Text>Close Login</Text> */}
-    //   {/* <View style={styles.panel}>
-    //    <VrButton 
-    //    onClick={()=> {this.showLogin()}}>
-    //      <Text>{this.state.loggedIn ? 'LogOut' : 'Login'}</Text>
-    //    </VrButton>
-    //   {this.state.loginView && 
-    //     <View>
-    //       <VrButton onClick={()=> {
-    //         this.hideLogin()
-    //       }}>
-    //         <Text>Close </Text>
-    //       </VrButton>
-    //       <View>
-    //       {this.showWelcome()}
-    //       </View>
-    //     </View>
-    //   }
-    //   </View> */}
-    //   {/* </VrButton> */}
-    //   {/* {this.showWelcome()} */}
-    // </View>
-    <View>
+    <View style={styles.panel}>
       <VrButton onclick={() => surfaceModule.destroyPanel()}>
         <Text>Close Keyboard</Text>
       </VrButton>
@@ -178,7 +154,7 @@ const styles = StyleSheet.create({
     // Fill the entire surface
     width: 200,
     height: 300,
-    // backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
     justifyContent: 'center',
     // alignItems: 'center',
     // textAlign: 'left',
@@ -199,6 +175,6 @@ const styles = StyleSheet.create({
 
 AppRegistry.registerComponent('KeyboardPanel', () => KeyboardComponent);
 // AppRegistry.registerComponent('KeyboardPanel', () => KeyboardComponent);
-
+AppRegistry.registerComponent(...registerKeyboard)
 // AppRegistry.registerComponent('ScareScreen', () => ScareScreen);
 

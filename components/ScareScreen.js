@@ -23,6 +23,9 @@ export default class ScareScreen extends React.Component {
             time: new Date,
             // pictName: e.thePicture
             rotation: 130,
+            pictName: null,
+            mtl: null,
+            type: null
           };
         this.lastUpdate = Date.now();
         this.rotate = this.rotate.bind(this);
@@ -59,17 +62,23 @@ export default class ScareScreen extends React.Component {
 
     changeImage(e){
       console.log(e)
+      // if(e.thePicture === 'flag.obj'){
+      // AudioModule.playOneShot({
+      //     source: asset('win.mp3')
+      //   });
+      // }
       AudioModule.playOneShot({
         source: asset('scary_sound.mp3')
       });
       this.setState({
         ImageView: true,
-        pictName: e.thePicture
+        pictName: e.thePicture,
+        mtl: e.mtl,
+        type: e.type
       });
     }
 
     hideImage(){
-
         this.setState({
             ImageView: false
         })
@@ -86,8 +95,6 @@ export default class ScareScreen extends React.Component {
       ).start();
     }
 
-
-
     render(){
         return(
             <View 
@@ -98,31 +105,20 @@ export default class ScareScreen extends React.Component {
               // {rotateZ: 45}
             // ]}}
             >
-            <VrButton onClick={() => {
-                this.showImage()
-              }}>
-              </VrButton>
             {this.state.ImageView && <View>
                 <VrButton onClick={() => {
                 this.hideImage();
               }}>
-                  <Text>
-                      GAME OVER
-                  </Text>
+                <Text>
+                    {this.state.pictName === 'poop.obj'?
+                    'GAME OVER' : 'YOU WIN'}
+                </Text>
             </VrButton>
-              {/* <Image
-                source={asset('girls.png')}
-                style={{ width: 75, height: 75, transform:[
-                  {translate: [ 100 , 0, 100]},
-                  {rotateY: this.state.rotation / 1}
-                  // {translateZ: -10}
-                ]}
-              }
-              /> */}
+              {this.state.pictName === 'poop.obj'?
                 <Entity 
                 source ={{
-                    obj: asset('poop.obj'),
-                    mtl: asset('poop.mtl')
+                    obj: asset(this.state.pictName),
+                    mtl: asset(this.state.mtl)
                 }}
                 lit={true}
                 style={{
@@ -137,12 +133,30 @@ export default class ScareScreen extends React.Component {
                     ]
                 }}
                 />
-            <VrButton onClick={() => {
+                :
+                <Entity 
+                source ={{
+                    obj: asset(this.state.pictName),
+                    mtl: asset(this.state.mtl)
+                }}
+                lit={true}
+                style={{
+                    transform:[
+                        {translate: [ -20, 0 , -15]},
+                        {scale: 1},
+                        // {rotateY: this.state.rotation / 1},
+                        // {rotateX: 180}
+                        // {rotateY: 45},
+                        // {rotateZ: .25}
+                        // {rotateZ: this.state.rotation / 1}
+                    ]
+                }}
+                />
+              }
+              {/* <VrButton onClick={() => {
                 this.hideImage();
-              }}>
-            </VrButton>
-    
-
+                }}>
+              </VrButton> */}
             </View>
           }
     
