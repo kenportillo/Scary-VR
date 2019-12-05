@@ -8,8 +8,6 @@ import KeyboardModule from 'react-360-keyboard/KeyboardModule';
 
 // const polyfill = new WebVRPolyfill();
 
-// import Math from 'react-360'
-
 import { rotateByQuaternion } from 'react-360-web/js/Utils/Math.js'
 
 function init(bundle, parent, options = {}) {
@@ -36,37 +34,20 @@ function init(bundle, parent, options = {}) {
     0,// Math.PI/ 2, /* roll */
   );
 
-  r360.renderToSurface(
-    r360.createRoot('ScareScreen', {}),
-    scareSurface
-  );
 
   const scareLocation = new Location ([0,0, -1]);
-  // const scareLocation = new Location ([-175,50,-100]);
 
-
-  // r360.renderToLocation(
-  //   r360.createRoot('ScareScreen'),
-  //   scareLocation
-  // )
+  r360.renderToLocation(
+    r360.createRoot('ScareScreen'),
+    scareLocation
+  )
   
   const customLocation = new Location([0,0,0]);
-
-  // const keyBoardLocation = new Location ([0, 1, -3]);
-
-  // const keyBoardSurface = new Surface(1000,600, Surface.SurfaceShape.Flat)
-
-  // r360.renderToSurface(
-  //   r360.createRoot('KeyboardPanel'),
-  //   // keyBoardSurface
-  //   r360.getDefaultSurface(),
-  // )
 
   surface = r360.getDefaultSurface();
 
   keyBoardPanel = r360.renderToSurface(
     r360.createRoot('Scary_VR',{}),
-    // r360.getDefaultSurface()
     surface
   );
 
@@ -83,6 +64,11 @@ function init(bundle, parent, options = {}) {
 
   r360.runtime.executor._worker.addEventListener(
     'message',
+    (e) => onFail(e, r360, customLocation)
+  )
+
+  r360.runtime.executor._worker.addEventListener(
+    'message',
     (e) => onScare(e, r360, scareSurface)
   )
 
@@ -94,15 +80,17 @@ function init(bundle, parent, options = {}) {
   // player.setLoop(true);
 
   // Load the initial environment
-  r360.compositor.setBackground(r360.getAssetURL('360_world.jpg'));
+  r360.compositor.setBackground(r360.getAssetURL('space.jpeg'));
   // r360.compositor.setBackgroundVideo('myplayer');
-
-  // r360.controls.clearRaycasters();
-  // r360.controls.addRaycaster(SimpleRaycaster);
-  // r360.compositor.setCursorVisibility('visible');
 
   KeyboardModule.setInstance(r360)
 
+}
+
+function onFail(e, r360, customLocation){
+  if(e.data.type === 'startPosition'){
+    customLocation.setWorldPosition(0, 0,0)
+  }
 }
 
 function onMessage(e, r360, customLocation){
@@ -174,60 +162,3 @@ class surfaceModule extends Module {
 
 window.React360 = {init};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // const LoginPanel = new Surface(
-  //   400,
-  //   150,
-  //   Surface.SurfaceShape.Flat
-  // )
-
-  // LoginPanel.setAngle(
-  //   0.6,
-  //   0.1
-  // )
-
-  // r360.renderToSurface(
-  //   r360.createRoot('KeyboardPanel'),
-  //   LoginPanel
-  // )
-
-
-    // r360.renderToSurface(
-  //   r360.createRoot('KeyboardPanel'),
-  //   r360.getDefaultSurface(),
-  // )
-
-    // const keyBoardLocation = new Location ([-3, 3, 3]);
-
-  // const keyBoardSurface = new Surface(
-  //   1000,
-  //   600,
-  //   Surface.SurfaceShape.Flat
-  // )
-
-  // keyBoardSurface.setAngle(
-  //   0,
-  //   0,
-  //   0,
-  // )
-
-      // keyBoardLocation
-    // r360.getDefaultSurface()
-
-
-      // r360.renderToLocation(
-  //   r360.createRoot('ThreeD'),
-  //   customLocation
-  // );

@@ -62,23 +62,30 @@ export default class ScareScreen extends React.Component {
 
     changeImage(e){
       console.log(e)
-      // if(e.thePicture === 'flag.obj'){
-      // AudioModule.playOneShot({
-      //     source: asset('win.mp3')
-      //   });
-      // }
-      AudioModule.playOneShot({
-        source: asset('scary_sound.mp3')
-      });
-      this.setState({
-        ImageView: true,
-        pictName: e.thePicture,
-        mtl: e.mtl,
-        type: e.type
-      });
+      if(e.thePicture === 'poop.obj'){
+        this.setState({
+          ImageView: true,
+          pictName: e.thePicture,
+          mtl: e.mtl,
+        });
+        AudioModule.playOneShot({
+          source: asset('scary_sound.mp3')
+        });
+      }else if(e.thePicture === 'flag.obj'){
+        AudioModule.stopEnvironmental();
+        AudioModule.playOneShot({
+          source: asset('win.mp3')
+        });
+        this.setState({
+          ImageView: true,
+          pictName: e.thePicture,
+          mtl: e.mtl,
+        });
+      }
     }
 
     hideImage(){
+        // postMessage({type: 'startPosition'});
         this.setState({
             ImageView: false
         })
@@ -97,45 +104,31 @@ export default class ScareScreen extends React.Component {
 
     render(){
         return(
-            <View 
-            // style={{transform:[
-            //   {translate: [-2,0,0]},
-            //   {rotateY: 90},
-              // {rotateX:0}
-              // {rotateZ: 45}
-            // ]}}
-            >
-            {this.state.ImageView && <View>
+          <View>
+            {this.state.ImageView && 
+            <View>
                 <VrButton onClick={() => {
                 this.hideImage();
-              }}>
-                <Text>
-                    {this.state.pictName === 'poop.obj'?
-                    'GAME OVER' : 'YOU WIN'}
-                </Text>
-            </VrButton>
-              {this.state.pictName === 'poop.obj'?
-                <Entity 
-                source ={{
+                }}>
+                  <Text>
+                      {this.state.pictName === 'poop.obj'?'GAME OVER' : 'YOU WIN'}
+                  </Text>
+                </VrButton>
+                  {this.state.pictName === 'poop.obj'? 
+                  <Entity source ={{
                     obj: asset(this.state.pictName),
                     mtl: asset(this.state.mtl)
-                }}
+                    }}
                 lit={true}
-                style={{
-                    transform:[
+                style={{transform:[
                         {translate: [ 0, 0 , 0]},
                         {scale: 1},
-                        {rotateY: this.state.rotation / 1},
-                        // {rotateX: 180}
-                        // {rotateY: 45},
-                        // {rotateZ: .25}
-                        // {rotateZ: this.state.rotation / 1}
-                    ]
-                }}
-                />
-                :
-                <Entity 
-                source ={{
+                        {rotateY: this.state.rotation / 1}
+                      ]
+                    }
+                  }/>
+                  :
+                  <Entity source ={{
                     obj: asset(this.state.pictName),
                     mtl: asset(this.state.mtl)
                 }}
@@ -143,23 +136,13 @@ export default class ScareScreen extends React.Component {
                 style={{
                     transform:[
                         {translate: [ -20, 0 , -15]},
-                        {scale: 1},
-                        // {rotateY: this.state.rotation / 1},
-                        // {rotateX: 180}
-                        // {rotateY: 45},
-                        // {rotateZ: .25}
-                        // {rotateZ: this.state.rotation / 1}
+                        {scale: 1}
                     ]
-                }}
-                />
-              }
-              {/* <VrButton onClick={() => {
-                this.hideImage();
-                }}>
-              </VrButton> */}
+                }
+                  }/>
+                  }
             </View>
-          }
-    
+            }
           </View>
         )
     }

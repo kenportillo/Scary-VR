@@ -8,23 +8,15 @@ import {
   NativeModules,
   Text
 } from 'react-360';
-// import Building from './Building';
 import Light from './Light';
 import Maze from './Maze';
-// import Move1 from '../moves/Move1';
 import MazeMoves from '../moves/MazeMoves';
-// import ScareScreen from './ScareScreen'
-// import Keyboard from './Keyboard';
-import GazeButton from "react-360-gaze-button";
-
-// const {AudioModule} = NativeModules;
 
 export default class ThreeD extends React.Component {
 
   render() {
     return (
       <View>
-          {/* <Keyboard/> */}
           <MazeMoves />
           <Maze />
           <Light/>

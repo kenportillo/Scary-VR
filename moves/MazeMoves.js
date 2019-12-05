@@ -88,7 +88,7 @@ export default class Move1 extends React.Component {
                     source: asset('footsteps.mp3')
                 })
                     this.state.xTarPos = 0,
-                    this.state.zTarPos = -3,
+                    this.state.zTarPos = 3,
                     this.state.yTarPos = -100;
                 }}>
                 <Entity 
@@ -1605,7 +1605,7 @@ export default class Move1 extends React.Component {
                     AudioModule.playOneShot({
                         source: asset('footsteps.mp3')
                     })
-                        postMessage({type: "newPic", pic: 'poop.obj', mtl: 'poop.mtl'});    
+                        postMessage({type: "newPic", pic: 'poop.obj', mtl: 'poop.mtl'});  
                         this.state.xTarPos = -50.5,
                         this.state.zTarPos = 24,
                         this.state.yTarPos = 0;

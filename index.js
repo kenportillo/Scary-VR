@@ -15,6 +15,7 @@ import ScareScreen from './components/ScareScreen';
 import KeyboardPanel from './components/Keyboard';
 import Light from './components/Light'
 
+const {AudioModule} = NativeModules;
 
 import {registerKeyboard} from 'react-360-keyboard';
 
@@ -32,10 +33,14 @@ export default class Scary_VR extends React.Component {
     }
   }
 
+  componentDidMount(){
+    this.playMusic()
+  }
+
   handleLogin=()=>{    
     let input = this.state.tempUser
     
-    fetch('http://10.9.107.232:3000/login',{
+    fetch('http://10.9.106.86:3000/login',{
       method: "POST",
       headers:{
         "Content-Type" : "application/json",
@@ -69,17 +74,23 @@ export default class Scary_VR extends React.Component {
     }))
   }
 
+  playMusic(){
+    AudioModule.playEnvironmental({
+      source: asset('007.mp3'),
+      volume: 0.3})
+  }
+
   showWelcome = () =>{
     return (
       <View style={styles.panel}>
         <Text style={styles.text}>
-        Welcome to SHITTY MAZE VR
+        Welcome to the MAZE 
         </Text>
         <VrButton onClick={this.enterName}>
           <Text style={styles.text}>{!this.state.tempUser.name ? "Enter Your Name" : this.state.tempUser.name }</Text>
         </VrButton>
         <VrButton onClick={this.enterPassword}>
-          <Text style={styles.text}>{!this.state.tempUser.password ? "Enter Password" : this.state.tempUser.password.length }</Text>
+          <Text style={styles.text}>{!this.state.tempUser.password ? "Enter Password" : "🕸🕸🕸🕸" }</Text>
         </VrButton>
         <VrButton onClick={this.handleLogin}>
           <Text style={styles.text}>Login</Text>
@@ -91,9 +102,23 @@ export default class Scary_VR extends React.Component {
   showGoodBye = () => {
     return (
       <View style={styles.panel}>
-        <VrButton onClick={()=> surfaceModule.destroyPanel()}>
+        <VrButton onClick={()=> 
+          // AudioModule.playEnvironmental({
+          //   source: asset('007.mp3'),
+          //   volume: 0.3,
+          //   }),
+          surfaceModule.destroyPanel()}>
           <Text style={styles.text} >Close Login</Text>
         </VrButton>
+        <Text style={styles.text}>
+          Instructions:
+        </Text>
+        <Text style={styles.text}>
+          Escape the MAZE.
+        </Text>
+        <Text style={styles.text}>
+          Don't get trapped in a dead end.
+        </Text>
       </View>
     )
   }
@@ -109,46 +134,17 @@ export default class Scary_VR extends React.Component {
     }))
   }
 
-  // onClick() {
-  //   // 4.) show the keyboard
-  //   NativeModules.Keyboard.startInput({
-  //     placeholder: 'Enter your name',
-  //   }).then(input => console.log(input));
-  // }
 
   render() {
-      // <View style={styles.panel}>
-    // <View>
-    //   <VrButton onClick={()=> surfaceModule.destroyPanel()}>
-    //     <Text>Destroy</Text>
-    //   </VrButton>
-
-    //   <VrButton onClick={this.onClick}>
-    //     <Text>Show Keyboard</Text>
-    //   </VrButton>
-    // </View>
-
     if(this.state.currentUser === null){
       return (this.showWelcome())
     }
     else if(this.state.currentUser !== null){
     return(this.showGoodBye())
     }
-      // {/* </View> */}
   }
 }
 
-//   render() {
-//       return (
-//         <View>
-//           <KeyboardPanel/>
-//           {/* <ThreeD/> */}
-//           {/* <ScareScreen/> */}
-//           <Light />
-//         </View>
-//       );
-//     }
-// };
 
 const styles = StyleSheet.create({
   text: {
