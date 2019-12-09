@@ -34,6 +34,7 @@ export default class ScareScreen extends React.Component {
 
     componentDidMount() {
       this.rotate();
+      this.hideImage();
     }
 
     componentWillUnmount() {
@@ -68,6 +69,7 @@ export default class ScareScreen extends React.Component {
           pictName: e.thePicture,
           mtl: e.mtl,
         });
+        AudioModule.stopEnvironmental();
         AudioModule.playOneShot({
           source: asset('scary_sound.mp3')
         });
@@ -85,7 +87,6 @@ export default class ScareScreen extends React.Component {
     }
 
     hideImage(){
-        // postMessage({type: 'startPosition'});
         this.setState({
             ImageView: false
         })

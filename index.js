@@ -40,7 +40,7 @@ export default class Scary_VR extends React.Component {
   handleLogin=()=>{    
     let input = this.state.tempUser
     
-    fetch('http://10.9.106.86:3000/login',{
+    fetch('http://localhost:3000/login',{
       method: "POST",
       headers:{
         "Content-Type" : "application/json",
@@ -103,10 +103,6 @@ export default class Scary_VR extends React.Component {
     return (
       <View style={styles.panel}>
         <VrButton onClick={()=> 
-          // AudioModule.playEnvironmental({
-          //   source: asset('007.mp3'),
-          //   volume: 0.3,
-          //   }),
           surfaceModule.destroyPanel()}>
           <Text style={styles.text} >Close Login</Text>
         </VrButton>
