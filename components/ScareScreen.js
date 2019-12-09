@@ -6,9 +6,14 @@ import {
     asset,
     VrButton,
     Image,
+    NativeModules,
+    Animated
 } from 'react-360';
+import Entity from 'Entity';
 
 const RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
+
+const {AudioModule} = NativeModules
 
 export default class ScareScreen extends React.Component {
     constructor(){
@@ -17,9 +22,37 @@ export default class ScareScreen extends React.Component {
             ImageView : false,
             time: new Date,
             // pictName: e.thePicture
-        };
-
+            rotation: 130,
+            pictName: null,
+            mtl: null,
+            type: null
+          };
+        this.lastUpdate = Date.now();
+        this.rotate = this.rotate.bind(this);
         RCTDeviceEventEmitter.addListener('clickedImage', (e) => {this.changeImage(e);});
+    }
+
+    componentDidMount() {
+      this.rotate();
+      this.hideImage();
+    }
+
+    componentWillUnmount() {
+      if (this.frameHandle) {
+        cancelAnimationFrame(this.frameHandle);
+        this.frameHandle = null;
+      }
+    }
+
+    rotate() {
+      const now = Date.now();
+      const delta = now - this.lastUpdate;
+      this.lastUpdate = now;
+      
+      this.setState({
+          rotation: this.state.rotation + delta / 150
+      });
+      this.frameHandle = requestAnimationFrame(this.rotate);
     }
 
     showImage(){
@@ -28,12 +61,29 @@ export default class ScareScreen extends React.Component {
         })
     }
 
-    changeImage(e)
-    {
-      this.setState({
-        ImageView: true,
-        pictName: e.thePicture
-      });
+    changeImage(e){
+      console.log(e)
+      if(e.thePicture === 'poop.obj'){
+        this.setState({
+          ImageView: true,
+          pictName: e.thePicture,
+          mtl: e.mtl,
+        });
+        AudioModule.stopEnvironmental();
+        AudioModule.playOneShot({
+          source: asset('scary_sound.mp3')
+        });
+      }else if(e.thePicture === 'flag.obj'){
+        AudioModule.stopEnvironmental();
+        AudioModule.playOneShot({
+          source: asset('win.mp3')
+        });
+        this.setState({
+          ImageView: true,
+          pictName: e.thePicture,
+          mtl: e.mtl,
+        });
+      }
     }
 
     hideImage(){
@@ -42,41 +92,61 @@ export default class ScareScreen extends React.Component {
         })
     }
 
+    bounce({initial, toValue, friction = 1.5}) {
+      value.setValue(initial);
 
+      Animated.spring(
+        this.state.bounceValue,{
+          toValue,
+          friction,
+        }
+      ).start();
+    }
 
     render(){
         return(
-            <View >
-            <VrButton onClick={() => {
-                this.showImage()
-              }}>
-              </VrButton>
-        
-            {this.state.ImageView && <View>
+          <View>
+            {this.state.ImageView && 
+            <View>
                 <VrButton onClick={() => {
                 this.hideImage();
-              }}>
+                }}>
                   <Text>
-                      GAME OVER
+                      {this.state.pictName === 'poop.obj'?'GAME OVER' : 'YOU WIN'}
                   </Text>
-            </VrButton>
-              <Image
-                source={asset('girls.png')}
-                style={{ width: 400, height: 275, transform:[
-                    {translate: [ 0 , 0, -2]}]
+                </VrButton>
+                  {this.state.pictName === 'poop.obj'? 
+                  <Entity source ={{
+                    obj: asset(this.state.pictName),
+                    mtl: asset(this.state.mtl)
+                    }}
+                lit={true}
+                style={{transform:[
+                        {translate: [ 0, 0 , 0]},
+                        {scale: 1},
+                        {rotateY: this.state.rotation / 1}
+                      ]
+                    }
+                  }/>
+                  :
+                  <Entity source ={{
+                    obj: asset(this.state.pictName),
+                    mtl: asset(this.state.mtl)
                 }}
-              />
-            <VrButton onClick={() => {
-                this.hideImage();
-              }}>
-            </VrButton>
-    
-
+                lit={true}
+                style={{
+                    transform:[
+                        {translate: [ -20, 0 , -15]},
+                        {scale: 1}
+                    ]
+                }
+                  }/>
+                  }
             </View>
-          }
-    
+            }
           </View>
         )
     }
 
 }
+

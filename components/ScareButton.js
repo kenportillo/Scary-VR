@@ -7,7 +7,6 @@ import {
     NativeModules
 } from 'react-360';
 import Entity from 'Entity';
-import ScareScreen from './ScareScreen'
 
 const {AudioModule} = NativeModules;
 
@@ -20,26 +19,23 @@ export default class ScareButton extends React.Component {
             <View>
                 <VrButton onClick = {()=> {
                     postMessage({type: "newPic", pic: this.props.pic});
-                    AudioModule.playOneShot({
-                        source: asset('footsteps.mp3')
-                    });
                 }}
                 >
             <Entity 
-            source ={{
-            obj: asset('model.obj'),
-            mtl: asset('materials.mtl')
-            }}
-            lit={true}
-            style={{
-            transform:[
-            {translate: [ this.props.x , this.props.y , this.props.z]},
-            {scale: .25},
-            {rotateX: 190},
-            {rotateY: 45},
-            {rotateZ: 1}
-            ]
-            }}
+                source ={{
+                obj: asset('model.obj'),
+                mtl: asset('materials.mtl')
+                }}
+                lit={true}
+                style={{
+                transform:[
+                {translate: [ this.props.x , this.props.y , this.props.z]},
+                        {scale: .5},
+                        {rotateX: 180},
+                        {rotateY: 135},
+                        {rotateZ: 0.25}
+                ]
+                }}
             />
             </VrButton>
             </View>

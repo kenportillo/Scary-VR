@@ -4,6 +4,7 @@ import {
   View,
   AmbientLight,
   PointLight,
+  SpotLight
 } from 'react-360';
 
 export default class Light extends React.Component {
@@ -11,24 +12,43 @@ export default class Light extends React.Component {
     return (
       <View>
         <AmbientLight
-          intensity={0.5}
+          intensity={0.2}
           style={{
-            color: 'white',
+            color: '#ffffff',
             transform: [
               {translate: [0,0,0]},
             ]
           }}
         />
 
-        <PointLight 
-          intensity={0.3}
+        <SpotLight 
+          intensity={0.2}
           style={{
-            color: '#F5F5DC',
             transform: [
-              {translate: [0,0,0]},
+              {translate: [20,0,-50]}
             ]
           }}
-          distance={10}
+        />
+        <SpotLight 
+          intensity={0.2}
+          style={{
+            transform: [
+              {translate: [-20,0,-100]}
+            ]
+          }}
+        />
+
+        <SpotLight 
+          intensity={0.2}
+          style={{
+            transform: [
+              {translate: [-30,0,0]}
+            ]
+          }}
+        />
+
+        <SpotLight 
+          intensity={0.2}
         />
         
       </View>
